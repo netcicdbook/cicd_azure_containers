@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen(swagger =>
     swagger.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Title = "Registry Api",
-        Description = "API de último registro horario de cada empleado",
+        Description = "API de último registro horario de cada empleado con CICD",
         Version = "v1"
     });
 });
