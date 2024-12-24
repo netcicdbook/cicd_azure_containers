@@ -7,7 +7,7 @@ on:
     branches: 
       [ main ]
     paths:
-    - '**'
+    - 'WorkTimeRecord.Solution/Registry/Registry.API/**'
     - '.github/workflows/msregistryapi-AutoDeployTrigger-dd84df0a-4711-42e6-8f4c-a3dbe326dc50.yml'
 
   # Allow manual trigger 
@@ -30,19 +30,25 @@ jobs:
           client-id: ${{ secrets.MSREGISTRYAPI_AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.MSREGISTRYAPI_AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.MSREGISTRYAPI_AZURE_SUBSCRIPTION_ID }}
-
+      
       - name: Build and push container image to registry
+        run: |
+          docker build -t netcicdbook/ms.registry.api:${{ github.sha }} -f Registry/Registry.API/Dockerfile .
+          echo ${{ secrets.MSREGISTRYAPI_REGISTRY_PASSWORD }} | docker login docker.io -u ${{ secrets.MSREGISTRYAPI_REGISTRY_USERNAME }} --password-stdin
+          docker push netcicdbook/ms.registry.api:${{ github.sha }}
+          
+      - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v2
         with:
-          appSourcePath: ${{ github.workspace }}
-          _dockerfilePathKey_: _dockerfilePath_
+#          appSourcePath: ${{ github.workspace }}
+#          _dockerfilePathKey_: _dockerfilePath_
           registryUrl: docker.io
           registryUsername: ${{ secrets.MSREGISTRYAPI_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.MSREGISTRYAPI_REGISTRY_PASSWORD }}
           containerAppName: msregistryapi
           resourceGroup: ContainerApps
           imageToBuild: netcicdbook/msregistryapi:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
+#          _buildArgumentsKey_: |
+#            _buildArgumentsValues_
 
 
