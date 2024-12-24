@@ -33,7 +33,7 @@ jobs:
       
       - name: Build and push container image to registry
         run: |
-          docker build -t netcicdbook/ms.registry.api:${{ github.sha }} -f Registry/Registry.API/Dockerfile .
+          docker build -t netcicdbook/ms.registry.api:${{ github.sha }} -f WorkTimeRecord.Solution/Registry/Registry.API/Dockerfile .
           echo ${{ secrets.MSREGISTRYAPI_REGISTRY_PASSWORD }} | docker login docker.io -u ${{ secrets.MSREGISTRYAPI_REGISTRY_USERNAME }} --password-stdin
           docker push netcicdbook/ms.registry.api:${{ github.sha }}
           
