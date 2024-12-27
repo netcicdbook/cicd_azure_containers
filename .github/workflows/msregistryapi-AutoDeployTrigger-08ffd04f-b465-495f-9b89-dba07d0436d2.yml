@@ -39,16 +39,12 @@ jobs:
       - name: Deploy to Azure Container Apps
         uses: azure/container-apps-deploy-action@v2
         with:
-#          appSourcePath: ${{ github.workspace }}
-#          _dockerfilePathKey_: _dockerfilePath_
           registryUrl: docker.io
           registryUsername: ${{ secrets.MSREGISTRYAPI_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.MSREGISTRYAPI_REGISTRY_PASSWORD }}
           containerAppName: msregistryapi
           resourceGroup: ContainerApps
           imageToDeploy: netcicdbook/ms.registry.api:${{ github.sha }}
-#          imageToBuild: netcicdbook/msregistryapi:${{ github.sha }}
-#          _buildArgumentsKey_: |
-#            _buildArgumentsValues_
+
 
 
